@@ -1,0 +1,22 @@
+# Function to avoid users knowing table names in postgres and make it a bit more obscure. Use Query Tool in PgAdmin to quickly admin this. Connect to the database, hourofci, open, click on schema, navigate to tables. Right click to get a query tool option in the menu. 
+
+
+CREATE FUNCTION hourofci(userid VARCHAR(30), access_date DATE, access_time VARCHAR(20), lesson VARCHAR(30), lesson_level VARCHAR(10), question VARCHAR(3), answers TEXT, attempts VARCHAR(2), time_taken VARCHAR(30), correct VARCHAR(2)) RETURNS VOID AS
+$$
+BEGIN
+	INSERT INTO hourofci (userid, access_date, access_time, lesson, lesson_level, question, answers, attempts, time_taken, correct) VALUES (userid, access_date, access_time, lesson, lesson_level, question, answers, attempts, time_taken, correct);
+END
+$$
+	LANGUAGE 'plpgsql';
+
+
+
+
+
+
+# Permissions (miami is a test user)
+GRANT CONNECT ON DATABASE hourofci TO miami;
+GRANT INSERT ON hourofci TO miami;
+GRANT EXECUTE ON FUNCTION hourofci TO miami;
+
+
